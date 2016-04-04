@@ -46,7 +46,13 @@
 			element.classList.toggle('-hidden');
 
 			// do animation
-			Transition.trigger(element, ['fade-start', 'fade-end']);
+			Transition.trigger({
+				el: element,
+				classes: ['fade-start', 'fade-end'],
+				callback: function() {
+					console.log('transition complete');
+				}
+			});
 		});
 	</script>
 </body>
