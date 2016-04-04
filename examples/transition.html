@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Transition Example</title>
+	<style>
+		#element {
+			height: 500px;
+			width: 500px;
+
+			background-color: orange;
+		}
+
+		#element.-hidden {
+			display: none;
+		}
+
+		/* Fade out */
+		#element.fade-start {
+			display: block;
+			opacity: 0;
+		}
+		#element.fade-end {
+			display: block;
+			opacity: 1;
+			transition: opacity 1000ms linear;
+		}
+
+		/* Fade in */
+		#element.-hidden.fade-start {
+			opacity: 1;
+		}
+		#element.-hidden.fade-end {
+			opacity: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="element"></div>
+	<script src="../lib/transition.js"></script>
+	<script>
+		var element = document.getElementById('element');
+		document.addEventListener('click', function() {
+			// typical class toggle
+			element.classList.toggle('-hidden');
+
+			// do animation
+			Transition.trigger(element, ['fade-start', 'fade-end']);
+		});
+	</script>
+</body>
+</html>
