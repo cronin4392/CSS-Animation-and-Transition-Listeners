@@ -4,44 +4,96 @@
 	<meta charset="utf-8">
 	<title>Transition Example</title>
 	<style>
-		#element {
+		.element {
+			position: relative;
 			height: 500px;
 			width: 500px;
+			overflow: hidden;
 
 			background-color: orange;
 		}
 
-		#element.-hidden {
+		.element.-hidden {
 			display: none;
 		}
 
+		.subElement {
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			top: 0;
+			left: 0;
+
+			background-color: blue;
+		}
+
 		/* Fade out */
-		#element.fade-start {
+		.element.animation-fade.fade-start {
 			display: block;
 			opacity: 0;
 		}
-		#element.fade-end {
+		.element.animation-fade.fade-end {
 			display: block;
 			opacity: 1;
 			transition: opacity 1000ms linear;
 		}
 
 		/* Fade in */
-		#element.-hidden.fade-start {
+		.element.animation-fade.-hidden.fade-start {
 			opacity: 1;
 		}
-		#element.-hidden.fade-end {
+		.element.animation-fade.-hidden.fade-end {
 			opacity: 0;
+		}
+
+		/* Sub Element Pan */
+		.element.animation-pan .subElement {
+			transition: all 1000ms linear;
+		}
+
+		.element.animation-pan.pan-start,
+		.element.animation-pan.pan-end {
+			display: block;
+		}
+		.element.animation-pan.pan-start .subElement {
+			top: 100%;
+			left: 100%;
+		}
+		.element.animation-pan.pan-end .subElement {
+			top: 0%;
+			left: 0%;
+		}
+		.element.-hidden.animation-pan.pan-start .subElement {
+			top: 0;
+			left: 0;
+		}
+		.element.-hidden.animation-pan.pan-end .subElement {
+			top: 100%;
+			left: 100%;
 		}
 	</style>
 </head>
 
 <body>
-	<div id="element"></div>
+	<section>
+		<h1>Basic example</h1>
+		<div id="element1" class="element animation-fade"></div>
+		<button id="button1" type="button">Toggle</button>
+	</section>
+	<section>
+		<h1>Different trigger element</h1>
+		<div id="element2" class="element animation-pan">
+			<div class="subElement" id="subElement2"></div>
+		</div>
+		<button id="button2" type="button">Toggle</button>
+	</section>
+
 	<script src="../lib/transition.js"></script>
 	<script>
-		var element = document.getElementById('element');
-		document.addEventListener('click', function() {
+		
+		var button = document.getElementById('button1');
+		button.addEventListener('click', function() {
+			var element = document.getElementById('element1');
 			// typical class toggle
 			element.classList.toggle('-hidden');
 
@@ -49,6 +101,24 @@
 			Transition.trigger({
 				el: element,
 				classes: ['fade-start', 'fade-end'],
+				callback: function() {
+					console.log('transition complete');
+				}
+			});
+		});
+
+		var button = document.getElementById('button2');
+		button.addEventListener('click', function() {
+			var element = document.getElementById('element2');
+			var subElement = document.getElementById('subElement2');
+			// typical class toggle
+			element.classList.toggle('-hidden');
+
+			// do animation
+			Transition.trigger({
+				el: element,
+				animationEl: subElement,
+				classes: ['pan-start', 'pan-end'],
 				callback: function() {
 					console.log('transition complete');
 				}
