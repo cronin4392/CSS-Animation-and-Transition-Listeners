@@ -11,21 +11,25 @@ Plugin works through normal HTML include or through NPM
 
 ### Include
 
-    // HTML
+#### HTML
+
     <script src="/pathto/transition.js"></script>
 
-    // NPM
+#### NPM
+
     var Transition = require('/pathto/transition.js');
 
 ### Call
 
-    // Minimal
+#### Minimal
+
     Transition.trigger({
         el: element, // DOM element
         classes: ['transition-type-start', 'transition-type-end']
     });
 
-    // Robust
+#### Robust
+
     Transition.trigger({
         el: element, // DOM element
         animationEl: subElement, // Another DOM element
